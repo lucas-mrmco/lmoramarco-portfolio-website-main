@@ -379,3 +379,19 @@ window.addEventListener("load", function () {
 
     ScrollTrigger.refresh();
 });
+
+// Récupère la vidéo et la fenêtre de visualisation
+var video = document.querySelector('.hero-video video');
+var viewport = window.innerHeight || document.documentElement.clientHeight;
+
+// Ajoute un événement de défilement pour détecter quand l'utilisateur fait défiler la page
+window.addEventListener('scroll', function () {
+    // Calcule la distance de la vidéo depuis le haut de la page
+    var distance = video.getBoundingClientRect().top;
+
+    // Calcule la quantité de flou en fonction de la distance de la vidéo depuis le haut de la page
+    var blurValue = distance / viewport * 10;
+
+    // Ajuste la valeur du flou
+    video.style.filter = 'blur(' + blurValue + 'px)';
+});
