@@ -462,7 +462,7 @@
      width: 100%;
      text-align: center;
      margin: 0 auto;
-     cursor: pointer;
+
  }
 
  .project-link-wrap p {
@@ -472,7 +472,7 @@
      font-weight: 900;
      text-align: center;
      margin: 0 auto;
-     cursor: pointer;
+
      opacity: 0.35;
      -webkit-transition: all 200ms linear;
      transition: all 200ms linear;
@@ -743,7 +743,7 @@
      background-repeat: no-repeat;
      background-position: top center;
      background-size: 10px 40px;
-     cursor: pointer;
+
      background-image: url('http://www.ivang-design.com/svg-load/parallax/arrow-up.png');
      transform: translateY(-15px);
      -webkit-transition: all 250ms linear;
@@ -1427,50 +1427,7 @@
  }
 
 
- .realistic {
-     color: #fff;
-     font-family: Georgia, Baskerville, serif;
-     font-size: 30px;
 
-     top: -300px;
-
-     opacity: 0.25;
-
-     max-width: 900px;
-     transform: scale(0.75, 0.75) perspective(1200px) rotateY(8deg) rotateX(45deg);
-     text-shadow: 0 0 3px rgba(34, 34, 34, 0.6), 0 0 1px rgba(34, 34, 34, 0.2);
-     text-align: justify;
-
- }
-
-
- .realistic.blur {
-     pointer-events: none;
- }
-
- .realistic.blur-top:nth-child(1) {
-     transform: scale(0.75, 0.75) perspective(1200px) rotateY(8.2deg) rotateX(45.2deg);
- }
-
- .realistic.blur-bottom:nth-child(1) {
-     transform: scale(0.75, 0.75) perspective(1200px) rotateY(7.8deg) rotateX(44.8deg);
- }
-
- .realistic.blur-top:nth-child(2) {
-     transform: scale(0.75, 0.75) perspective(1200px) rotateY(8.4deg) rotateX(45.4deg);
- }
-
- .realistic.blur-bottom:nth-child(2) {
-     transform: scale(0.75, 0.75) perspective(1200px) rotateY(7.6deg) rotateX(44.6deg);
- }
-
- .realistic.blur1 {
-     transform: scale(0.75, 0.75) perspective(1200px) rotateY(8.4deg) rotateX(45.4deg);
- }
-
- .realistic.blur2 {
-     transform: scale(0.75, 0.75) perspective(1200px) rotateY(7.6deg) rotateX(44.6deg);
- }
 
  .overlay {
      position: relative;
@@ -1478,7 +1435,7 @@
      left: 0;
      bottom: 0;
      right: 0;
-     background: linear-gradient(rgba(238, 238, 238, 0.3), rgba(238, 238, 238, 0));
+     background: linear-gradient(rgba(238, 238, 238, 0.6), rgba(238, 238, 238, 0.3));
      z-index: 99;
      pointer-events: none;
  }
@@ -1490,6 +1447,7 @@
      -webkit-background-clip: text;
      background-clip: text;
      -webkit-text-fill-color: transparent;
+     font-weight: 700;
  }
 
  .explore_gradient {
@@ -1499,4 +1457,66 @@
      -webkit-background-clip: text;
      background-clip: text;
      -webkit-text-fill-color: transparent;
+     font-weight: 700;
+ }
+
+
+ /*=============== HEADER & NAV===============*/
+ .header {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     background-color: #111111;
+     z-index: var(--z-fixed);
+     transition: 0.4s;
+     height: 80px;
+     padding: 0% 0% 2% 2%;
+ }
+
+ .nav {
+
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+
+
+
+
+ .nav__menu {
+     position: fixed;
+     bottom: 1rem;
+     background-color: hsla(var(--second-hue), 32%, 16%, 0.8);
+     width: 90%;
+     border-radius: 4rem;
+     padding: 1rem 2.25rem;
+     backdrop-filter: blur(10px);
+     transition: 0.4s;
+ }
+
+ .nav__list {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+ .nav__item {
+     font-size: 1.2vh;
+ }
+
+ .nav__logo img {
+     min-width: 80px;
+ }
+
+ .nav__link {
+     color: var(--text-color);
+     font-size: 1.25rem;
+     padding: 0.4rem;
+     font-weight: var(--font-medium);
+     text-decoration: none;
+     transition: 0.4s;
+     display: flex;
+     border-radius: 5rem;
  }
