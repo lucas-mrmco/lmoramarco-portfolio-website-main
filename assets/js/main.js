@@ -2,7 +2,7 @@
 
 $(function () {
     $(".p2").typed({
-        strings: ["WEBDESIGNER", "INTÉGRATEUR WEB", "DIRECTEUR ARTISTIQUE", "FREELANCE", "COMMUNITY MANAGER", "CRÉATEUR DE CONTENU"],
+        strings: ["WEB DESIGNER", "INTÉGRATEUR WEB", "DIRECTEUR ARTISTIQUE", "FREELANCE", "COMMUNITY MANAGER", "CRÉATEUR DE CONTENU"],
         typeSpeed: 50,
         backSpeed: 10,
         backDelay: 2000,
