@@ -1,311 +1,401 @@
-/*=============== CHANGE BACKGROUND HEADER ===============*/
-function scrollHeader() {
-  const header = document.getElementById("header");
-  // When the scroll is greater than 50 viewport height, add the scroll-header class to the header tag
-  if (this.scrollY >= 50) header.classList.add("scroll-header");
-  else header.classList.remove("scroll-header");
-}
-window.addEventListener("scroll", scrollHeader);
 
-/*=============== SERVICES MODAL ===============*/
-// Get the modal
-const modalViews = document.querySelectorAll(".services__modal"),
-  modalBtns = document.querySelectorAll(".services__button"),
-  modalClose = document.querySelectorAll(".services__modal-close");
 
-// When the user clicks on the button, open the modal
-let modal = function (modalClick) {
-  modalViews[modalClick].classList.add("active-modal");
-};
-
-modalBtns.forEach((mb, i) => {
-  mb.addEventListener("click", () => {
-    modal(i);
-  });
-});
-
-modalClose.forEach((mc) => {
-  mc.addEventListener("click", () => {
-    modalViews.forEach((mv) => {
-      mv.classList.remove("active-modal");
+$(function () {
+    $(".p2").typed({
+        strings: ["WEBDESIGNER", "INTÉGRATEUR WEB", "DIRECTEUR ARTISTIQUE", "FREELANCE", "COMMUNITY MANAGER", "CRÉATEUR DE CONTENU"],
+        typeSpeed: 50,
+        backSpeed: 10,
+        backDelay: 2000,
+        showCursor: false,
+        loop: true
     });
-  });
 });
 
-/*=============== MIXITUP FILTER PORTFOLIO ===============*/
-
-let mixer = mixitup(".work__container", {
-  selectors: {
-    target: ".work__card",
-  },
-  animation: {
-    duration: 300,
-  },
+$('.hero-down').mousedown(function () {
+    TweenMax.fromTo('.btn-react', 0.25, {
+        opacity: 0,
+        scale: 0
+    }, {
+        opacity: 0.25,
+        scale: 1,
+        onComplete: function () {
+            TweenMax.to('.btn-react', 0.25, {
+                opacity: 0,
+                scale: 0
+            });
+        }
+    });
 });
 
-/* Link active work */
-const workLinks = document.querySelectorAll(".work__item");
-
-function activeWork(workLink) {
-  workLinks.forEach((wl) => {
-    wl.classList.remove("active-work");
-  });
-  workLink.classList.add("active-work");
-}
-
-workLinks.forEach((wl) => {
-  wl.addEventListener("click", () => {
-    activeWork(wl);
-  });
-});
-
-/*=============== SWIPER TESTIMONIAL ===============*/
-
-let swiperTestimonial = new Swiper(".testimonial__container", {
-  spaceBetween: 24,
-  loop: true,
-  grabCursor: true,
-
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-
-  breakpoints: {
-    576: {
-      slidesPerView: 2,
-    },
-    768: {
-      slidesPerView: 2,
-      spaceBetween: 48,
-    },
-  },
-});
-
-/*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
-
-const sections = document.querySelectorAll("section[id]");
-
-function scrollActive() {
-  const scrollY = window.pageYOffset;
-
-  sections.forEach((current) => {
-    const sectionHeight = current.offsetHeight,
-      sectionTop = current.offsetTop - 58,
-      sectionId = current.getAttribute("id");
-
-    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-      document
-        .querySelector(".nav__menu a[href*=" + sectionId + "]")
-        .classList.add("active-link");
-    } else {
-      document
-        .querySelector(".nav__menu a[href*=" + sectionId + "]")
-        .classList.remove("active-link");
+// smooth scroll to div
+$('a[href*=#]:not([href=#])').click(function () {
+    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+        if (target.length) {
+            $('html,body').animate({
+                scrollTop: target.offset().top
+            }, 1000);
+            return false;
+        }
     }
-  });
+});
+
+
+
+
+
+var tl = new TimelineMax({ onUpdate: updatePercentage });
+var tl2 = new TimelineMax();
+const controller = new ScrollMagic.Controller();
+
+tl.from('blockquote', .5, { x: 200, opacity: 0 });
+tl.from('span', 1, { width: 0 }, "=-.5");
+tl.from('#office', 1, { x: -200, opacity: 0, ease: Power4.easeInOut }, "=-1");
+tl.from('#building', 1, { x: 200, opacity: 0, ease: Power4.easeInOut }, "=-.7");
+
+tl2.from("#box", 1, { opacity: 0, scale: 0 });
+tl2.to("#box", .5, { left: "20%", scale: 1.3, borderColor: 'white', borderWidth: 12, boxShadow: '1px 1px 0px 0px rgba(0,0,0,0.09)' })
+
+const scene = new ScrollMagic.Scene({
+    triggerElement: ".sticky",
+    triggerHook: "onLeave",
+    duration: "100%"
+})
+    .setPin(".sticky")
+    .setTween(tl)
+    .addTo(controller);
+
+const scene2 = new ScrollMagic.Scene({
+    triggerElement: "blockquote"
+})
+    .setTween(tl2)
+    .addTo(controller);
+
+
+function updatePercentage() {
+    //percent.innerHTML = (tl.progress() *100 ).toFixed();
+    tl.progress();
+    console.log(tl.progress());
 }
-window.addEventListener("scroll", scrollActive);
 
-/*=============== LIGHT DARK THEME ===============*/
-const themeButton = document.getElementById("theme-button");
-const lightTheme = "light-theme";
-const iconTheme = "bx-sun";
-
-// Previously selected topic (if user selected)
-const selectedTheme = localStorage.getItem("selected-theme");
-const selectedIcon = localStorage.getItem("selected-icon");
-
-// We obtain the current theme that the interface has by validating the light-theme class
-const getCurrentTheme = () =>
-  document.body.classList.contains(lightTheme) ? "dark" : "light";
-const getCurrentIcon = () =>
-  themeButton.classList.contains(iconTheme) ? "bx bx-moon" : "bx bx-sun";
-
-// We validate if the user previously chose a topic
-if (selectedTheme) {
-  // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the light
-  document.body.classList[selectedTheme === "dark" ? "add" : "remove"](
-    lightTheme
-  );
-  themeButton.classList[selectedIcon === "bx bx-moon" ? "add" : "remove"](
-    iconTheme
-  );
-}
-
-// Activate / deactivate the theme manually with the button
-themeButton.addEventListener("click", () => {
-  // Add or remove the light / icon theme
-  document.body.classList.toggle(lightTheme);
-  themeButton.classList.toggle(iconTheme);
-  // We save the theme and the current icon that the user chose
-  localStorage.setItem("selected-theme", getCurrentTheme());
-  localStorage.setItem("selected-icon", getCurrentIcon());
-});
-
-/*=============== SCROLL REVEAL ANIMATION ===============*/
-const sr = ScrollReveal({
-  origin: "top",
-  distance: "60px",
-  duration: 2500,
-  delay: 400,
-  reset: true,
-});
-
-sr.reveal(`.nav__menu`, {
-  delay: 100,
-  scale: 0.1,
-  origin: "bottom",
-  distance: "300px",
-});
-
-sr.reveal(`.home__data`);
-sr.reveal(`.home__handle`, {
-  delay: 100,
-});
-
-sr.reveal(`.home__social, .home__scroll`, {
-  delay: 100,
-  origin: "bottom",
-});
-
-sr.reveal(`.about__img`, {
-  delay: 100,
-  origin: "left",
-  scale: 0.9,
-  distance: "30px",
-});
-
-sr.reveal(`.about__data, .about__description, .about__button-contact`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "right",
-  distance: "30px",
-});
-
-sr.reveal(`.skills__content`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "bottom",
-  distance: "30px",
-});
-
-sr.reveal(`.services__title, services__button`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "top",
-  distance: "30px",
-});
-
-sr.reveal(`.work__card`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "bottom",
-  distance: "30px",
-});
-
-sr.reveal(`.testimonial__container`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "bottom",
-  distance: "30px",
-});
-
-sr.reveal(`.contact__info, .contact__title-info`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "left",
-  distance: "30px",
-});
-
-sr.reveal(`.contact__form, .contact__title-form`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "right",
-  distance: "30px",
-});
-
-sr.reveal(`.footer, footer__container`, {
-  delay: 100,
-  scale: 0.9,
-  origin: "bottom",
-  distance: "30px",
-});
-
-
-
-
-
-
-/* Please ❤ this if you like it! */
+/* modes */
 
 
 (function ($) {
-  "use strict";
-
-
-  //Parallax & fade on scroll	
-
-  function scrollBanner() {
-    $(document).on('scroll', function () {
-      var scrollPos = $(this).scrollTop();
-      $('.parallax-fade-top').css({
-        'top': (scrollPos / 2.8) + 'px',
-        'opacity': 1 - (scrollPos / 600)
-      });
-    });
-  }
-  scrollBanner();
-
-  //Page cursors
-
-  document.getElementsByTagName("body")[0].addEventListener("mousemove", function (n) {
-    t.style.left = n.clientX + "px",
-      t.style.top = n.clientY + "px",
-      e.style.left = n.clientX + "px",
-      e.style.top = n.clientY + "px",
-      i.style.left = n.clientX + "px",
-      i.style.top = n.clientY + "px"
-  });
-  var t = document.getElementById("cursor"),
-    e = document.getElementById("cursor2"),
-    i = document.getElementById("cursor3");
-  function n(t) {
-    e.classList.add("hover"), i.classList.add("hover")
-  }
-  function s(t) {
-    e.classList.remove("hover"), i.classList.remove("hover")
-  }
-  s();
-  for (var r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
-    o(r[a])
-  }
-  function o(t) {
-    t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
-  }
-
-  $(document).ready(function () {
     "use strict";
 
-    //Scroll indicator
+    //Parallax            
 
-    var progressPath = document.querySelector('.progress-wrap path');
-    var pathLength = progressPath.getTotalLength();
-    progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
-    progressPath.style.strokeDasharray = pathLength + ' ' + pathLength;
-    progressPath.style.strokeDashoffset = pathLength;
-    progressPath.getBoundingClientRect();
-    progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';
-    var updateProgress = function () {
-      var scroll = $(window).scrollTop();
-      var height = $(document).height() - $(window).height();
-      var progress = pathLength - (scroll * pathLength / height);
-      progressPath.style.strokeDashoffset = progress;
+    function scrollBanner() {
+        $(document).on('scroll', function () {
+            var scrollPos = $(this).scrollTop();
+            $('.parallax-fade-top').css({
+                'top': (scrollPos / 2) + 'px',
+                'opacity': 1 - (scrollPos / 700)
+            });
+            $('.parallax-00').css({
+                'top': (scrollPos / -3.5) + 'px'
+            });
+            $('.parallax-01').css({
+                'top': (scrollPos / -2.8) + 'px'
+            });
+            $('.parallax-top-shadow').css({
+                'top': (scrollPos / -2) + 'px'
+            });
+        });
     }
-    updateProgress();
-    $(window).scroll(updateProgress);
+    scrollBanner();
+
+    //Page cursors
+
+    document.getElementsByTagName("body")[0].addEventListener("mousemove", function (n) {
+        t.style.left = n.clientX + "px",
+            t.style.top = n.clientY + "px",
+            e.style.left = n.clientX + "px",
+            e.style.top = n.clientY + "px",
+            i.style.left = n.clientX + "px",
+            i.style.top = n.clientY + "px"
+    });
+    var t = document.getElementById("cursor"),
+        e = document.getElementById("cursor2"),
+        i = document.getElementById("cursor3");
+    function n(t) {
+        e.classList.add("hover"), i.classList.add("hover")
+    }
+    function s(t) {
+        e.classList.remove("hover"), i.classList.remove("hover")
+    }
+    s();
+    for (var r = document.querySelectorAll(".hover-target"), a = r.length - 1; a >= 0; a--) {
+        o(r[a])
+    }
+    function o(t) {
+        t.addEventListener("mouseover", n), t.addEventListener("mouseout", s)
+    }
 
 
-  });
+    //Scroll back to top
 
-})(jQuery); 
+    $(document).ready(function () {
+        var offset = 300;
+        var duration = 400;
+        jQuery(window).on('scroll', function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.scroll-to-top').addClass('active-arrow');
+            } else {
+                jQuery('.scroll-to-top').removeClass('active-arrow');
+            }
+        });
+        jQuery('.scroll-to-top').on('click', function (event) {
+            event.preventDefault();
+            jQuery('html, body').animate({ scrollTop: 0 }, duration);
+            return false;
+        })
+
+
+        /* Hero Case study images */
+
+        $('.case-study-name:nth-child(1)').on('mouseenter', function () {
+            $('.case-study-name.active').removeClass('active');
+            $('.case-study-images li.show').removeClass("show");
+            $('.case-study-images li:nth-child(1)').addClass("show");
+            $('.case-study-name:nth-child(1)').addClass('active');
+        })
+        $('.case-study-name:nth-child(2)').on('mouseenter', function () {
+            $('.case-study-name.active').removeClass('active');
+            $('.case-study-images li.show').removeClass("show");
+            $('.case-study-images li:nth-child(2)').addClass("show");
+            $('.case-study-name:nth-child(2)').addClass('active');
+        })
+        $('.case-study-name:nth-child(3)').on('mouseenter', function () {
+            $('.case-study-name.active').removeClass('active');
+            $('.case-study-images li.show').removeClass("show");
+            $('.case-study-images li:nth-child(3)').addClass("show");
+            $('.case-study-name:nth-child(3)').addClass('active');
+        })
+        $('.case-study-name:nth-child(4)').on('mouseenter', function () {
+            $('.case-study-name.active').removeClass('active');
+            $('.case-study-images li.show').removeClass("show");
+            $('.case-study-images li:nth-child(4)').addClass("show");
+            $('.case-study-name:nth-child(4)').addClass('active');
+        })
+        $('.case-study-name:nth-child(1)').trigger('mouseenter')
+
+    });
+
+})(jQuery);
+
+
+// 3d galery
+
+window.onload = () => {
+
+    gsap.set('#scrollDist', {
+        width: '100%',
+        height: gsap.getProperty('#app', 'height'), // apply the height of the image stack
+        onComplete: () => {
+            gsap.set('#app, #imgGroup', { opacity: 1, position: 'fixed', width: '100%', height: '100%', top: 0, left: 0, perspective: 300 })
+            gsap.set('#app img', {
+                position: 'absolute',
+                attr: {
+                    id: (i, t, a) => { //use GSAP's built-in loop to setup each image
+                        initImg(i, t);
+                        return 'img' + i;
+                    }
+                }
+            })
+
+            gsap.timeline({
+                defaults: { duration: 1 },
+                onUpdate: () => { if (gsap.getProperty('#cursorClose', 'opacity') == 1) closeDetail() }, //close detail view on scroll
+                scrollTrigger: {
+                    trigger: '#scrollDist',
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 1
+                }
+            })
+                .fromTo('#txt1', { scale: 0.6, transformOrigin: '50%' }, { scale: 2, ease: 'power1.in' }, 0)
+                .to('#txt1 path', { duration: 0.3, drawSVG: 0, stagger: 0.05, ease: 'power1.in' }, 0)
+                .fromTo('.imgBox', { z: -5000 }, { z: 350, stagger: -0.3, ease: 'none' }, 0.3)
+                .fromTo('.imgBox img', { scale: 3 }, { scale: 1.15, stagger: -0.3, ease: 'none' }, 0.3)
+                .to('.imgBox', { duration: 0, pointerEvents: 'auto', stagger: -0.3 }, 0.5)
+                .from('.imgBox img', { duration: 0.3, opacity: 0, stagger: -0.3, ease: 'power1.inOut' }, 0.3)
+                .to('.imgBox img', { duration: 0.1, opacity: 0, stagger: -0.3, ease: 'expo.inOut' }, 1.2)
+                .to('.imgBox', { duration: 0, pointerEvents: 'none', stagger: -0.3 }, 1.27)
+                .add('end')
+                .fromTo('#txt2', { scale: 0.1, transformOrigin: '50%' }, { scale: 0.6, ease: 'power3' }, 'end-=0.2')
+                .from('#txt2 path', { duration: 0.4, drawSVG: 0, ease: 'sine.inOut', stagger: 0.15 }, 'end-=0.2')
+
+            // intro animation
+            gsap.from(window, { duration: 1.4, scrollTo: gsap.getProperty('#scrollDist', 'height') / 3, ease: 'power2.in' });
+            gsap.from('.imgBox', { duration: 0.2, opacity: 0, stagger: 0.06, ease: 'power1.inOut' })
+        }
+
+    })
+
+    function initImg(i, t) {
+        const box = document.createElement('div') // make a container div
+        box.appendChild(t) // move the target image into the container
+        document.getElementById('imgGroup').appendChild(box) // put the container into the imgGroup div
+        gsap.set(box, {
+            pointerEvents: 'none',
+            position: 'absolute',
+            attr: { id: 'box' + i, class: 'imgBox' },
+            width: t.width,
+            height: t.height,
+            overflow: 'hidden',
+            top: '50%',
+            left: '50%',
+            x: t.dataset.x,
+            y: t.dataset.y,
+            xPercent: -50,
+            yPercent: -50,
+            perspective: 500
+        })
+
+        t.onmouseover = () => gsap.to('#cursorCircle', { duration: 0.2, attr: { r: 30, 'stroke-width': 4 } })
+
+        t.onmousedown = () => {
+            gsap.to(t, { z: -25, ease: 'power2' })
+            gsap.to('#cursorCircle', { attr: { r: 40 }, ease: 'power3' })
+        }
+
+        t.onmouseup = () => gsap.to(t, { z: 0, ease: 'power1.inOut' })
+
+        t.onmouseout = () => gsap.to('#cursorCircle', { duration: 0.2, attr: { r: 11, 'stroke-width': 3 } })
+
+        t.onclick = () => showDetail(t)
+    }
+
+    function showDetail(t) {
+        gsap.timeline()
+            .set('#detailTxt', { textContent: t.alt }, 0)
+            .set('#detailImg', { background: 'url(' + t.src + ') center no-repeat' }, 0)
+            .fromTo('#detail', { top: '100%' }, { top: 0, ease: 'expo.inOut' }, 0)
+            .fromTo('#detailImg', { y: '100%' }, { y: '0%', ease: 'expo', duration: 0.7 }, 0.2)
+            .fromTo('#detailTxt', { opacity: 0 }, { opacity: 1, ease: 'power2.inOut' }, 0.4)
+            .to('#cursorCircle', { duration: 0.2, opacity: 0 }, 0.2)
+            .to('#cursorClose', { duration: 0.2, opacity: 1 }, 0.4)
+    }
+
+    function closeDetail() {
+        gsap.timeline()
+            .to('#detailTxt', { duration: 0.3, opacity: 0 }, 0)
+            .to('#detailImg', { duration: 0.3, y: '-100%', ease: 'power1.in' }, 0)
+            .to('#detail', { duration: 0.3, top: '-100%', ease: 'expo.in' }, 0.1)
+            .to('#cursorClose', { duration: 0.1, opacity: 0 }, 0)
+            .to('#cursorCircle', { duration: 0.2, opacity: 1 }, 0.1)
+    }
+    document.getElementById('detail').onclick = closeDetail;
+
+    if (ScrollTrigger.isTouch == 1) { // on mobile, hide mouse follower + remove the x/y positioning from the images
+        gsap.set('#cursor', { opacity: 0 })
+        gsap.set('.imgBox', { x: 0, y: 0 })
+    } else {
+
+        // quickTo can be used to optimize x/y movement on the cursor...but it doesn't work on fancier props like 'xPercent'
+        cursorX = gsap.quickTo('#cursor', 'x', { duration: 0.3, ease: 'power2' })
+        cursorY = gsap.quickTo('#cursor', 'y', { duration: 0.3, ease: 'power2' })
+
+        window.onmousemove = (e) => {
+            gsap.to('.imgBox', { // move + rotate imgBoxes relative to mouse position
+                xPercent: -e.clientX / innerWidth * 100,
+                yPercent: -25 - e.clientY / innerHeight * 50,
+                rotateX: 8 - e.clientY / innerHeight * 16,
+                rotateY: -8 + e.clientX / innerWidth * 16
+            })
+
+            gsap.to('.imgBox img', { // move images inside each imgBox, creates additional parallax effect
+                xPercent: -e.clientX / innerWidth * 10,
+                yPercent: -5 - e.clientY / innerHeight * 10
+            })
+
+            // mouse follower
+            cursorX(e.clientX)
+            cursorY(e.clientY)
+        }
+    }
+}
+
+
+
+
+gsap.registerPlugin(ScrollTrigger);
+
+const pageContainer = document.querySelector(".container-car");
+
+/* SMOOTH SCROLL */
+const scroller = new LocomotiveScroll({
+    el: pageContainer,
+    smooth: true
+});
+
+scroller.on("scroll", ScrollTrigger.update);
+
+ScrollTrigger.scrollerProxy(pageContainer, {
+    scrollTop(value) {
+        return arguments.length
+            ? scroller.scrollTo(value, 0, 0)
+            : scroller.scroll.instance.scroll.y;
+    },
+    getBoundingClientRect() {
+        return {
+            left: 0,
+            top: 0,
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+    },
+    pinType: pageContainer.style.transform ? "transform" : "fixed"
+});
+
+////////////////////////////////////
+////////////////////////////////////
+window.addEventListener("load", function () {
+    let pinBoxes = document.querySelectorAll(".pin-wrap > *");
+    let pinWrap = document.querySelector(".pin-wrap");
+    let pinWrapWidth = pinWrap.offsetWidth;
+    let horizontalScrollLength = pinWrapWidth - window.innerWidth;
+
+    // Pinning and horizontal scrolling
+
+    gsap.to(".pin-wrap", {
+        scrollTrigger: {
+            scroller: pageContainer, //locomotive-scroll
+            scrub: true,
+            trigger: "#sectionPin",
+            pin: true,
+            // anticipatePin: 1,
+            start: "top top",
+            end: pinWrapWidth
+        },
+        x: -horizontalScrollLength,
+        ease: "none"
+    });
+
+    ScrollTrigger.addEventListener("refresh", () => scroller.update()); //locomotive-scroll
+
+    ScrollTrigger.refresh();
+});
+
+// Récupère la vidéo et la fenêtre de visualisation
+var video = document.querySelector('.hero-video video');
+var viewport = window.innerHeight || document.documentElement.clientHeight;
+
+// Ajoute un événement de défilement pour détecter quand l'utilisateur fait défiler la page
+window.addEventListener('scroll', function () {
+    // Calcule la distance de la vidéo depuis le haut de la page
+    var distance = video.getBoundingClientRect().top;
+
+    // Calcule la quantité de flou en fonction de la distance de la vidéo depuis le haut de la page
+    var blurValue = distance / viewport * 10;
+
+    // Ajuste la valeur du flou
+    video.style.filter = 'blur(' + blurValue + 'px)';
+});
+
+
+// footer
+

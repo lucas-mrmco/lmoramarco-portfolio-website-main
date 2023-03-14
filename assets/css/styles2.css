@@ -15,7 +15,7 @@
      max-width: 100%;
      min-height: 100vh;
      object-fit: cover;
-     filter: blur(5px);
+
      /* applique un flou gaussien de 5 pixels à la vidéo */
      transition: filter 0.5s ease-out;
      /* ajoute une transition pour adoucir l'effet de flou */
