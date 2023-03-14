@@ -226,7 +226,7 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--first-color);
+  background-color: lightblue;
   border-radius: 0.5rem;
 }
 
