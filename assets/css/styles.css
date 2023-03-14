@@ -188,8 +188,7 @@ img {
 
 .container {
   max-width: 968px;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 1rem 1rem;
   min-height: 80px;
 }
 
@@ -197,6 +196,14 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.nav__item {
+  font-size: 1.2vh;
+}
+
+.nav__item img {
+  min-width: 80px;
 }
 
 .nav__link {
@@ -366,6 +373,7 @@ img {
 @media screen and (max-width: 320px) {
   .nav__menu {
     padding: 1rem 1.5rem;
+    width: 90%;
   }
 
   .home__button {
@@ -386,6 +394,10 @@ img {
     left: 0;
     right: 0;
     margin: 0 auto;
+  }
+
+  .nav__item {
+    font-size: 2vh;
   }
 }
 
