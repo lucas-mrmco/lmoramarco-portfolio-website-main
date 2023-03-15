@@ -210,10 +210,6 @@ img {
 }
 
 
-.nav__item {
-  font-size: 1em;
-}
-
 /*=============== SCROLL BAR ===============*/
 ::-webkit-scrollbar {
   width: 0.5rem;
